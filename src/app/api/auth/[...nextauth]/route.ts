@@ -1,8 +1,9 @@
 import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import users from "@/app/constants/users";
+import prisma from "@/db";
+import bcrypt from "bcrypt";
 
-const authOptions: AuthOptions = {
+export const authOptions: AuthOptions = {
     providers: [
         CredentialsProvider({
             name: "Credentials",
@@ -16,19 +17,56 @@ const authOptions: AuthOptions = {
             },
             async authorize(credentials) {
                 const email = credentials?.email;
-                const password = credentials?.password;
+                const password = credentials?.password as string;
 
                 if (!email || !password) return null;
 
-                const user = users.find((e) => e.email === email);
-                if (user?.password === password)
-                    return { id: user.id, email: user.email, name: user.name };
+                try {
+                    const storedUser = await prisma.user.findFirst({
+                        where: {
+                            email,
+                        },
+                    });
+                    if (!storedUser) {
+                        const hashedPassword = await bcrypt.hash(password, 10);
+                        const newUser = await prisma.user.create({
+                            data: {
+                                email: email,
+                                name: "NEW_USER",
+                                password: hashedPassword,
+                            },
+                        });
+                        return {
+                            id: newUser.id,
+                            email: newUser.email,
+                            name: newUser.name,
+                        };
+                    }
 
-                return null;
+                    const isPassCorrect = await bcrypt.compare(
+                        password,
+                        storedUser.password
+                    );
+                    if (!isPassCorrect) return null;
+                    return {
+                        id: storedUser.id,
+                        email: storedUser.email,
+                        name: storedUser.name,
+                    };
+                } catch (error) {
+                    console.log(
+                        "Some error occured with authentication",
+                        error
+                    );
+                    return null;
+                }
             },
         }),
     ],
     secret: process.env.NEXTAUTH_SECRET,
+    session: {
+        strategy: "jwt",
+    },
 };
 
 const handler = NextAuth(authOptions);
