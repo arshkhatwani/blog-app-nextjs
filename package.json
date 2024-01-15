@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "studio": "npx prisma studio --browser none"
   },
   "dependencies": {
     "@prisma/client": "^5.8.0",
