@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "studio": "npx prisma studio --browser none"
+    "studio": "npx prisma studio --browser none",
+    "db": "docker compose up"
   },
   "dependencies": {
     "@prisma/client": "^5.8.0",
