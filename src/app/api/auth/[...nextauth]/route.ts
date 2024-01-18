@@ -67,6 +67,17 @@ export const authOptions: AuthOptions = {
     session: {
         strategy: "jwt",
     },
+    callbacks: {
+        jwt({ token, trigger, session }) {
+            // console.log("trigger", trigger);
+            // console.log("session", session);
+            if (trigger === "update" && session?.user?.name) {
+                token.name = session.user.name;
+            }
+            // console.log("token", token);
+            return token;
+        },
+    },
 };
 
 const handler = NextAuth(authOptions);
