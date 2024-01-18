@@ -9,7 +9,6 @@ import { useSession } from "next-auth/react";
 export default function Register() {
     const [error, setError] = useState<string>("");
     const { data: session, update } = useSession();
-    console.log(session);
 
     const onSubmit = async (formData: FormData) => {
         setError("");
