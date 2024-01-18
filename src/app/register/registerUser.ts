@@ -1,7 +1,7 @@
 "use server";
+
 import prisma from "@/db";
 import { getServerSession } from "next-auth";
-import { revalidatePath } from "next/cache";
 
 const registerUser = async (formData: FormData) => {
     try {
