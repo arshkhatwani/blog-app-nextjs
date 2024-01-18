@@ -5,6 +5,7 @@ import registerUser from "./registerUser";
 import ErrorToast from "../components/ErrorToast";
 import { redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { primaryBtn } from "../constants/uiClasses";
 
 export default function Register() {
     const [error, setError] = useState<string>("");
@@ -37,7 +38,8 @@ export default function Register() {
                     className="border-2 border-black w-full text-2xl mb-4 p-1.5 rounded-lg"
                     required
                 />
-                <input type="submit" value="Submit" />
+
+                <input type="submit" value="Submit" className={primaryBtn} />
             </form>
 
             {error && <ErrorToast message={error} />}
