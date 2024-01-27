@@ -11,6 +11,8 @@
     "db": "docker compose up"
   },
   "dependencies": {
+    "@blocknote/core": "^0.11.1",
+    "@blocknote/react": "^0.11.1",
     "@prisma/client": "^5.8.0",
     "bcrypt": "^5.1.1",
     "next": "14.0.4",
