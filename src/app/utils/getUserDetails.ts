@@ -3,6 +3,7 @@ import prisma from "@/db";
 
 export default async function getUserDetails() {
     const session = await getServerSession();
+    if(!session) return null;
     const email = session?.user.email;
     if (!email) return;
 
