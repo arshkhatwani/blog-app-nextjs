@@ -5,7 +5,7 @@ import FloatingBtn from "@/app/components/FloatingBtn";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { createBlog } from "./actions";
+import { createBlog } from "../actions";
 
 const Editor = dynamic(() => import("../../components/BlogEditor"), {
     ssr: false,
