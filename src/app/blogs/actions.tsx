@@ -2,6 +2,7 @@
 
 import getUserDetails from "@/app/utils/getUserDetails";
 import prisma from "@/db";
+import { Blog } from "@prisma/client";
 
 export async function createBlog(data: { title: string; body: any }) {
     const { title, body } = data;
@@ -37,5 +38,18 @@ export async function getUserBlogs() {
         return blogs;
     } catch (error) {
         console.log("Could not fetch user blogs due to this error:", error);
+    }
+}
+
+export async function getBlogById(id: Blog["id"]) {
+    try {
+        const blog = await prisma.blog.findFirst({
+            where: {
+                id,
+            },
+        });
+        return blog;
+    } catch (error) {
+        console.log("Could not fetch blog due to this error:", error);
     }
 }
