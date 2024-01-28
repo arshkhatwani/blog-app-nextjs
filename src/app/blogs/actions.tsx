@@ -30,6 +30,9 @@ export async function getUserBlogs() {
                 userId,
                 del: 0,
             },
+            orderBy: {
+                createdAt: "desc",
+            },
         });
         return blogs;
     } catch (error) {
