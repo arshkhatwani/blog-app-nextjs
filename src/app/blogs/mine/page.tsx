@@ -8,9 +8,7 @@ export default async function MineBlogs() {
     return (
         <div className="flex flex-col px-10 py-4 gap-5">
             {blogs?.map((blog) => (
-                <Link href={`/blogs/${blog.id}`} key={blog.id}>
-                    <BlogCard {...blog} />
-                </Link>
+                <BlogCard {...blog} />
             ))}
         </div>
     );
