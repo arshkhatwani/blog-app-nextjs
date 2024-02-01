@@ -3,6 +3,7 @@
 import getUserDetails from "@/app/utils/getUserDetails";
 import prisma from "@/db";
 import { Blog } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
 export async function createBlog(data: { title: string; body: any }) {
     const { title, body } = data;
@@ -17,6 +18,8 @@ export async function createBlog(data: { title: string; body: any }) {
             userId,
         },
     });
+
+    revalidatePath("/blogs/mine"); // To purge cache and ensure new blog is available on this path
 
     return newBlog;
 }
