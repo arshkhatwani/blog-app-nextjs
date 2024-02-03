@@ -98,3 +98,25 @@ export async function getUserDeletedBlogs() {
         console.log("Could not fetch user blogs due to this error:", error);
     }
 }
+
+export async function restoreBlog(id: Blog["id"]) {
+    try {
+        const blog = await getBlogById(id);
+        const user = await getUserDetails();
+
+        if (user?.id != blog?.userId) return;
+
+        await prisma.blog.update({
+            data: {
+                del: 0,
+            },
+            where: {
+                id: blog?.id,
+            },
+        });
+
+        return "OK";
+    } catch (error) {
+        console.log("Could not fetch blog due to this error:", error);
+    }
+}
