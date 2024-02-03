@@ -78,3 +78,23 @@ export async function deleteBlog(id: Blog["id"]) {
         console.log("Could not fetch blog due to this error:", error);
     }
 }
+
+export async function getUserDeletedBlogs() {
+    try {
+        const user = await getUserDetails();
+        if (!user) return;
+        const userId = user?.id as string;
+        const blogs = await prisma.blog.findMany({
+            where: {
+                userId,
+                del: 1,
+            },
+            orderBy: {
+                updatedAt: "desc",
+            },
+        });
+        return blogs;
+    } catch (error) {
+        console.log("Could not fetch user blogs due to this error:", error);
+    }
+}
