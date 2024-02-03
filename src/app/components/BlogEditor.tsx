@@ -11,14 +11,20 @@ import { Dispatch, SetStateAction } from "react";
 interface Props {
     blocks: any[];
     setBlocks: Dispatch<SetStateAction<any[]>>;
+    initialContent?: any | undefined;
 }
 
-export default function BlogEditor({ blocks, setBlocks }: Props) {
+export default function BlogEditor({
+    initialContent,
+    blocks,
+    setBlocks,
+}: Props) {
     const editor: BlockNoteEditor | null = useBlockNote({
         onEditorContentChange: (editor) => {
             setBlocks(editor.topLevelBlocks);
         },
         uploadFile: uploadToTmpFilesDotOrg_DEV_ONLY,
+        initialContent,
     });
 
     // Renders the editor instance using a React component.

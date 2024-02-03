@@ -9,6 +9,9 @@ import { useRouter } from "next/navigation";
 
 export default function BlogCard(blog: Blog) {
     const router = useRouter();
+    const onClickEdit = () => {
+        router.push(`/blogs/edit/${blog.id}`);
+    };
     const onClickDelete = async () => {
         await deleteBlog(blog.id);
         router.refresh();
@@ -29,7 +32,9 @@ export default function BlogCard(blog: Blog) {
             <div className="flex gap-2 items-center py-2">
                 {blog.del == 0 && (
                     <>
-                        <button className={grayBtn}>Edit</button>
+                        <button className={grayBtn} onClick={onClickEdit}>
+                            Edit
+                        </button>
                         <button className={redBtn} onClick={onClickDelete}>
                             Delete
                         </button>
