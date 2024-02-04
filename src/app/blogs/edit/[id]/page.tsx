@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-import { getBlogById } from "../../actions";
+import { getBlogById, updateBlog } from "../../actions";
 import FloatingBtn from "@/app/components/FloatingBtn";
 import ErrorToast from "@/app/components/ErrorToast";
 import { Blog } from "@prisma/client";
@@ -34,8 +34,10 @@ export default function Page({ params }: { params: { id: string } }) {
 
     const editBlog = async () => {
         try {
+            if (!blog?.id) return;
             setError("");
             const data = {
+                id: blog.id,
                 title: title.trim(),
                 body: blocks,
             };
@@ -43,9 +45,9 @@ export default function Page({ params }: { params: { id: string } }) {
                 setError("Please enter a valid title");
                 return;
             }
-            // const blog = await createBlog(data);
-            console.log("updated blog", data);
-            // router.replace("/");
+            const updatedBlog = await updateBlog(data);
+            // console.log("updated blog", updatedBlog);
+            router.replace(`/blogs/${blog.id}`);
         } catch (err) {
             console.log(err);
             setError("Could not create blog, please try later.");

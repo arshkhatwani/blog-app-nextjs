@@ -120,3 +120,32 @@ export async function restoreBlog(id: Blog["id"]) {
         console.log("Could not fetch blog due to this error:", error);
     }
 }
+
+export const updateBlog = async ({
+    id,
+    title,
+    body,
+}: {
+    id: string;
+    title: string;
+    body: any;
+}) => {
+    try {
+        const blog = await getBlogById(id);
+        const user = await getUserDetails();
+
+        if (user?.id != blog?.userId) return;
+        const updatedBlog = await prisma.blog.update({
+            data: {
+                title,
+                body,
+            },
+            where: {
+                id,
+            },
+        });
+        return updatedBlog;
+    } catch (error) {
+        console.log("Could not edit blog due to this error:", error);
+    }
+};
