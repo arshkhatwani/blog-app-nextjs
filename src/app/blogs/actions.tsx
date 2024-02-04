@@ -6,22 +6,26 @@ import { Blog } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 export async function createBlog(data: { title: string; body: any }) {
-    const { title, body } = data;
-    const user = await getUserDetails();
-    if (!user) return;
-    const userId = user?.id as string;
+    try {
+        const { title, body } = data;
+        const user = await getUserDetails();
+        if (!user) return;
+        const userId = user?.id as string;
 
-    const newBlog = await prisma.blog.create({
-        data: {
-            title,
-            body,
-            userId,
-        },
-    });
+        const newBlog = await prisma.blog.create({
+            data: {
+                title,
+                body,
+                userId,
+            },
+        });
 
-    revalidatePath("/blogs/mine"); // To purge cache and ensure new blog is available on this path
+        revalidatePath("/blogs/mine"); // To purge cache and ensure new blog is available on this path
 
-    return newBlog;
+        return newBlog;
+    } catch (err) {
+        console.log("Could not create blog due to error:", err);
+    }
 }
 
 export async function getUserBlogs() {
