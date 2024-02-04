@@ -2,12 +2,9 @@ import dynamic from "next/dynamic";
 import { getBlogById } from "../actions";
 import { notFound } from "next/navigation";
 
-const Editor = dynamic(
-    () => import("../../components/BlogEditorViewAndUpdate"),
-    {
-        ssr: false,
-    }
-);
+const Editor = dynamic(() => import("../../components/BlogEditorViewOnly"), {
+    ssr: false,
+});
 
 export default async function Page({ params }: { params: { id: string } }) {
     const { id } = params;
@@ -27,7 +24,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                     value={blog?.title}
                     readOnly
                 />
-                <Editor body={blog?.body} editable={false} />
+                <Editor body={blog?.body} />
             </div>
         </div>
     );
