@@ -50,6 +50,13 @@ export async function getBlogById(id: Blog["id"]) {
             where: {
                 id,
             },
+            include: {
+                BlogLikes: {
+                    select: {
+                        userId: true,
+                    },
+                },
+            },
         });
         return blog;
     } catch (error) {
@@ -178,5 +185,43 @@ export const getPublicBlogs = async () => {
         return blogs;
     } catch (err) {
         console.log("Could not fetch public blogs due to this error:", err);
+    }
+};
+
+export const likeBlog = async (blogId: Blog["id"]) => {
+    try {
+        const user = await getUserDetails();
+        if (!user) return;
+        const userId = user.id;
+        await prisma.blogLikes.create({
+            data: {
+                blogId,
+                userId,
+            },
+        });
+        revalidatePath(`/blogs/${blogId}`);
+        return "OK";
+    } catch (err) {
+        console.log("Could not like blog due to error: ", err);
+    }
+};
+
+export const unlikeBlog = async (blogId: Blog["id"]) => {
+    try {
+        const user = await getUserDetails();
+        if (!user) return;
+        const userId = user.id;
+        await prisma.blogLikes.delete({
+            where: {
+                blogId_userId: {
+                    blogId,
+                    userId,
+                },
+            },
+        });
+        revalidatePath(`/blogs/${blogId}`);
+        return "OK";
+    } catch (err) {
+        console.log("Could not like blog due to error: ", err);
     }
 };
