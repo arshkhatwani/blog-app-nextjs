@@ -3,6 +3,7 @@ import { authOptions } from "./api/auth/[...nextauth]/route";
 import Navbar from "./components/Navbar";
 import { redirect } from "next/navigation";
 import NEW_USER from "./constants/newUser";
+import PublicBlogs from "./components/PublicBlogs";
 
 export default async function Home() {
     const session = await getServerSession(authOptions);
@@ -19,9 +20,7 @@ export default async function Home() {
         <>
             <Navbar />
             <div className="p-5">
-                <h1 className="text-3xl">
-                    Hello, {user?.name}. Your email is {user?.email}
-                </h1>
+                <PublicBlogs />
             </div>
         </>
     );

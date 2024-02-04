@@ -153,3 +153,30 @@ export const updateBlog = async ({
         console.log("Could not edit blog due to this error:", error);
     }
 };
+
+export const getPublicBlogs = async () => {
+    try {
+        const blogs = await prisma.blog.findMany({
+            select: {
+                id: true,
+                title: true,
+                createdAt: true,
+                user: {
+                    select: {
+                        name: true,
+                    },
+                },
+                BlogLikes: true,
+            },
+            where: {
+                del: 0,
+            },
+            orderBy: {
+                createdAt: "desc",
+            },
+        });
+        return blogs;
+    } catch (err) {
+        console.log("Could not fetch public blogs due to this error:", err);
+    }
+};
