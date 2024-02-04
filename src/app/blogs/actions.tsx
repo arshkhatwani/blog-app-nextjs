@@ -144,6 +144,10 @@ export const updateBlog = async ({
                 id,
             },
         });
+
+        revalidatePath("/blogs/mine");
+        revalidatePath(`/blogs/${id}`);
+
         return updatedBlog;
     } catch (error) {
         console.log("Could not edit blog due to this error:", error);
