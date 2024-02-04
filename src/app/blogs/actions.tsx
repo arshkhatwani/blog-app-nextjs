@@ -86,7 +86,7 @@ export async function deleteBlog(id: Blog["id"]) {
 
         return "OK";
     } catch (error) {
-        console.log("Could not fetch blog due to this error:", error);
+        console.log("Could not delete blog due to this error:", error);
     }
 }
 
@@ -106,7 +106,10 @@ export async function getUserDeletedBlogs() {
         });
         return blogs;
     } catch (error) {
-        console.log("Could not fetch user blogs due to this error:", error);
+        console.log(
+            "Could not fetch user deleted blogs due to this error:",
+            error
+        );
     }
 }
 
@@ -128,7 +131,7 @@ export async function restoreBlog(id: Blog["id"]) {
 
         return "OK";
     } catch (error) {
-        console.log("Could not fetch blog due to this error:", error);
+        console.log("Could not restore blog due to this error:", error);
     }
 }
 
@@ -161,7 +164,7 @@ export const updateBlog = async ({
 
         return updatedBlog;
     } catch (error) {
-        console.log("Could not edit blog due to this error:", error);
+        console.log("Could not update blog due to this error:", error);
     }
 };
 
@@ -226,6 +229,6 @@ export const unlikeBlog = async (blogId: Blog["id"]) => {
         revalidatePath(`/blogs/${blogId}`);
         return "OK";
     } catch (err) {
-        console.log("Could not like blog due to error: ", err);
+        console.log("Could not unlike blog due to error: ", err);
     }
 };
