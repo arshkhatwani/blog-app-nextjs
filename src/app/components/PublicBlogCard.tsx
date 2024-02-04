@@ -1,6 +1,7 @@
 import { Blog, BlogLikes } from "@prisma/client";
 import { getFormattedDate } from "../utils/getFormattedDate";
 import Link from "next/link";
+import BlogLikesCount from "./BlogLikesCount";
 
 interface Props {
     id: Blog["id"];
@@ -29,6 +30,7 @@ export default function PublicBlogCard({
             <div className="flex gap-2 items-center py-2">
                 Author: {user.name}
             </div>
+            <BlogLikesCount blogLikes={BlogLikes} />
         </div>
     );
 }
