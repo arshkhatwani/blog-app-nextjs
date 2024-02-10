@@ -2,7 +2,7 @@
 
 import getUserDetails from "@/app/utils/getUserDetails";
 import prisma from "@/db";
-import { Blog } from "@prisma/client";
+import { Blog, BlogComments } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 export async function createBlog(data: { title: string; body: any }) {
@@ -58,6 +58,35 @@ export async function getBlogById(id: Blog["id"]) {
                 BlogLikes: {
                     select: {
                         userId: true,
+                    },
+                },
+            },
+        });
+        return blog;
+    } catch (error) {
+        console.log("Could not fetch blog due to this error:", error);
+    }
+}
+
+export async function getBlogByIdWithComments(id: Blog["id"]) {
+    try {
+        const blog = await prisma.blog.findFirst({
+            where: {
+                id,
+            },
+            include: {
+                BlogLikes: {
+                    select: {
+                        userId: true,
+                    },
+                },
+                BlogComments: {
+                    include: {
+                        user: {
+                            select: {
+                                name: true,
+                            },
+                        },
                     },
                 },
             },
@@ -231,4 +260,24 @@ export const unlikeBlog = async (blogId: Blog["id"]) => {
     } catch (err) {
         console.log("Could not unlike blog due to error: ", err);
     }
+};
+
+export const createBlogComment = async (
+    blogId: Blog["id"],
+    body: BlogComments["body"]
+) => {
+    const user = await getUserDetails();
+    if (!user?.id) return;
+
+    console.log(body, blogId);
+
+    const newComment = await prisma.blogComments.create({
+        data: {
+            body,
+            blogId,
+            userId: user.id,
+        },
+    });
+    revalidatePath(`/blogs/${blogId}`);
+    return newComment;
 };
