@@ -1,6 +1,6 @@
-import { Blog, BlogLikes } from "@prisma/client";
-import { getFormattedDate } from "../utils/getFormattedDate";
+import { Blog } from "@prisma/client";
 import Link from "next/link";
+import { getFormattedDate } from "../utils/getFormattedDate";
 import BlogLikesCount from "./BlogLikesCount";
 
 interface Props {
@@ -9,15 +9,18 @@ interface Props {
     user: {
         name: string;
     };
-    BlogLikes: BlogLikes[];
     createdAt: Blog["createdAt"];
+    _count: {
+        BlogComments: number;
+        BlogLikes: number;
+    };
 }
 export default function PublicBlogCard({
     id,
     title,
     user,
-    BlogLikes,
     createdAt,
+    _count,
 }: Props) {
     return (
         <div className="border py-2 px-3 duration-100 hover:shadow-lg">
@@ -30,7 +33,7 @@ export default function PublicBlogCard({
             <div className="flex gap-2 items-center py-2">
                 Author: {user.name}
             </div>
-            <BlogLikesCount blogLikes={BlogLikes} />
+            <BlogLikesCount blogLikes={_count.BlogLikes} />
         </div>
     );
 }

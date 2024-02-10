@@ -1,12 +1,11 @@
-import { BlogLikes } from "@prisma/client";
 import Image from "next/image";
 
 interface Props {
-    blogLikes: BlogLikes[];
+    blogLikes: number;
 }
 
 export default function BlogLikesCount({ blogLikes }: Props) {
-    if (!blogLikes.length) return <></>;
+    if (!blogLikes) return <></>;
     return (
         <div className="flex items-center gap-2">
             <Image
@@ -15,7 +14,7 @@ export default function BlogLikesCount({ blogLikes }: Props) {
                 width={20}
                 alt="likes"
             />
-            <span>{blogLikes.length}</span>
+            <span>{blogLikes}</span>
         </div>
     );
 }

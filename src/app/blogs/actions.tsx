@@ -209,7 +209,12 @@ export const getPublicBlogs = async () => {
                         name: true,
                     },
                 },
-                BlogLikes: true,
+                _count: {
+                    select: {
+                        BlogComments: true,
+                        BlogLikes: true,
+                    },
+                },
             },
             where: {
                 del: 0,
