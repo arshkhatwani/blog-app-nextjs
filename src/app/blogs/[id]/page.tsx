@@ -1,9 +1,10 @@
 import dynamic from "next/dynamic";
-import { getBlogById } from "../actions";
+import { getBlogByIdWithComments } from "../actions";
 import { notFound } from "next/navigation";
 import LikeBlog from "@/app/components/LikeBlog";
 import getUserDetails from "@/app/utils/getUserDetails";
 import UnlikeBlog from "@/app/components/UnlikeBlog";
+import BlogCommentsView from "@/app/components/BlogCommentsView";
 
 const Editor = dynamic(() => import("../../components/BlogEditorViewOnly"), {
     ssr: false,
@@ -11,7 +12,7 @@ const Editor = dynamic(() => import("../../components/BlogEditorViewOnly"), {
 
 export default async function Page({ params }: { params: { id: string } }) {
     const { id } = params;
-    const blog = await getBlogById(id);
+    const blog = await getBlogByIdWithComments(id);
     const user = await getUserDetails();
     const hasUserLiked =
         blog?.BlogLikes.find((like) => like.userId === user?.id) != undefined;
@@ -37,6 +38,11 @@ export default async function Page({ params }: { params: { id: string } }) {
                 ) : (
                     <LikeBlog id={blog.id} />
                 )}
+
+                <BlogCommentsView
+                    id={blog.id}
+                    blogComments={blog.BlogComments}
+                />
             </div>
         </div>
     );
