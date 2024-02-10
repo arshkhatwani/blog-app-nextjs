@@ -269,8 +269,6 @@ export const createBlogComment = async (
     const user = await getUserDetails();
     if (!user?.id) return;
 
-    console.log(body, blogId);
-
     const newComment = await prisma.blogComments.create({
         data: {
             body,
