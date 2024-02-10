@@ -19,7 +19,7 @@ export default function BlogCommentAdd({ blogId }: Props) {
     };
 
     return (
-        <form onSubmit={addComment} className="my-3">
+        <form onSubmit={addComment} className="my-3 mt-10">
             <input
                 className="text-xl w-full mb-2 outline-none"
                 type="text"

@@ -1,6 +1,7 @@
-import { Blog, BlogComments } from "@prisma/client";
+import { Blog } from "@prisma/client";
 import BlogComment, { BlogCommentWithUser } from "./BlogComment";
 import BlogCommentAdd from "./BlogCommentAdd";
+import Divider from "./Divider";
 
 interface Props {
     id: Blog["id"];
@@ -12,8 +13,11 @@ export default function BlogCommentsView({ id, blogComments }: Props) {
         <div className="flex flex-col my-3 mt-6">
             <h1 className="text-3xl font-semibold">Comments</h1>
 
-            {blogComments.map((comment) => (
-                <BlogComment key={comment.id} {...comment} />
+            {blogComments.map((comment, idx) => (
+                <div key={comment.id}>
+                    <BlogComment {...comment} />
+                    {idx !== blogComments.length && <Divider />}
+                </div>
             ))}
 
             <BlogCommentAdd blogId={id} />
