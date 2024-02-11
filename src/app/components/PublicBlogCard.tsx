@@ -32,7 +32,8 @@ export default function PublicBlogCard({
             </Link>
             <div>{getFormattedDate(createdAt)}</div>
             <div className="flex gap-2 items-center py-2">
-                Author: {user.name}
+                <span className="italic">Author:</span>
+                <span className="font-semibold">{user.name}</span>
             </div>
 
             <div className="flex gap-4">
