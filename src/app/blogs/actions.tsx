@@ -31,7 +31,7 @@ export async function createBlog(data: { title: string; body: any }) {
 export async function getUserBlogs() {
     try {
         const user = await getUserDetails();
-        if (!user) return;
+        if (!user) return [];
         const userId = user?.id as string;
         const blogs = await prisma.blog.findMany({
             where: {
@@ -45,6 +45,7 @@ export async function getUserBlogs() {
         return blogs;
     } catch (error) {
         console.log("Could not fetch user blogs due to this error:", error);
+        return [];
     }
 }
 
@@ -122,7 +123,7 @@ export async function deleteBlog(id: Blog["id"]) {
 export async function getUserDeletedBlogs() {
     try {
         const user = await getUserDetails();
-        if (!user) return;
+        if (!user) return [];
         const userId = user?.id as string;
         const blogs = await prisma.blog.findMany({
             where: {
@@ -139,6 +140,7 @@ export async function getUserDeletedBlogs() {
             "Could not fetch user deleted blogs due to this error:",
             error
         );
+        return [];
     }
 }
 

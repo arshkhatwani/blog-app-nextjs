@@ -1,13 +1,14 @@
 import BlogCard from "@/app/components/BlogCard";
 import { getUserBlogs, getUserDeletedBlogs } from "../actions";
 import ToggleBlogs from "@/app/components/ToggleBlogs";
+import { Blog } from "@prisma/client";
 
 export default async function MineBlogs({
     searchParams,
 }: {
     searchParams?: { [type: string]: string | undefined };
 }) {
-    let blogs;
+    let blogs: Blog[];
     if (searchParams?.type === "deleted") {
         blogs = await getUserDeletedBlogs();
     } else {
@@ -20,7 +21,11 @@ export default async function MineBlogs({
                 <ToggleBlogs type={searchParams?.type} />
             </div>
 
-            {blogs?.map((blog) => (
+            {blogs.length === 0 && (
+                <h1 className="text-2xl text-center">No blogs found</h1>
+            )}
+
+            {blogs.map((blog) => (
                 <BlogCard key={blog.id} {...blog} />
             ))}
         </div>
