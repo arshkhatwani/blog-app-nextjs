@@ -5,6 +5,7 @@ import LikeBlog from "@/app/components/LikeBlog";
 import getUserDetails from "@/app/utils/getUserDetails";
 import UnlikeBlog from "@/app/components/UnlikeBlog";
 import BlogCommentsView from "@/app/components/BlogCommentsView";
+import { titleInput } from "@/app/constants/uiClasses";
 
 const Editor = dynamic(() => import("../../components/BlogEditorViewOnly"), {
     ssr: false,
@@ -27,7 +28,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                 <input
                     type="text"
                     placeholder="Title"
-                    className="text-4xl font-bold focus:border-0 focus:outline-0 mb-10"
+                    className={titleInput}
                     value={blog?.title}
                     readOnly
                 />

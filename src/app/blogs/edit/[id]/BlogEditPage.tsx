@@ -7,6 +7,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { updateBlog } from "../../actions";
+import { titleInput } from "@/app/constants/uiClasses";
 
 const Editor = dynamic(() => import("../../../components/BlogEditor"), {
     ssr: false,
@@ -52,7 +53,7 @@ export default function BlogEditPage(blogToEdit: Blog) {
                 <input
                     type="text"
                     placeholder="Title"
-                    className="text-4xl focus:border-0 focus:outline-0 mb-10"
+                    className={titleInput}
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                 />
